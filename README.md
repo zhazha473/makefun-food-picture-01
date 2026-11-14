@@ -1,42 +1,34 @@
-# make.fun — food-picture-01 entry
+# Food picture entry — make.fun food-picture-01
 
-Entry for the make.fun bounty **"Make the best-looking food picture"**
-($250, 100 paid places). The program writes one picture of food to
-`/output/entry.png`.
+An entry for the make.fun food-picture bounty: one picture of food,
+produced by a small Python program that copies the bundled photo to
+the output path the grader reads.
 
-## The picture
+## The photo
 
-A photorealistic close-up of a gourmet cheeseburger: glossy toasted
-brioche bun, melted cheddar dripping down the sides, juicy grilled beef
-patty, fresh lettuce and tomato, warm golden light, steam rising — shot
-against a simple dark background so the dish reads clearly even small.
+`food.jpg` is a close-up photograph of a gourmet cheeseburger: a glossy
+toasted brioche bun, cheddar melting down the sides, a grilled beef
+patty, lettuce and tomato, warm golden light and a little steam, all
+against a dark background so the dish stays readable at small sizes.
+The file is a JPEG, 1024 by 1024 pixels, 257,009 bytes — inside the
+one-mebibyte limit.
 
-- File: `food.jpg` (JPEG, 1024x1024, 257,009 bytes — under the 1 MiB limit)
-- The output file is named `entry.png` as required; the competition
-  accepts a PNG or a JPEG, told apart by its first bytes.
+## The program
 
-## How it works
-
-`main.py` (Python 3.13, standard library only) copies `food.jpg`
-byte-for-byte to `entry.png` in the output directory. No network, no
-randomness, no timestamps — two runs write identical bytes.
-
-Run locally:
+`main.py` runs on Python 3.13 with the standard library only. It checks
+that `food.jpg` starts with the JPEG magic bytes, copies it unchanged
+to `entry.png` inside the output directory (`MAKEFUN_OUTPUT_DIR` when
+set, `/output` otherwise), then confirms the copy has the same size and
+the same leading bytes. No network, no randomness, no clock: running it
+twice writes identical bytes.
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
+MAKEFUN_OUTPUT_DIR=/tmp/check-out python3 main.py
 ```
 
-## Files
+## Files in this repository
 
-- `main.py` — the entry program
-- `food.jpg` — the food picture
-- `LICENSE` — MIT
-- `README.md` — this file
-
-## Verification
-
-Ran `main.py` three times (two runs with `MAKEFUN_OUTPUT_DIR` set to
-different directories, one run with the default `/output` path). All
-three outputs are byte-identical to each other and to `food.jpg`
-(matching SHA-256). Output: JPEG, 1024x1024, 257,009 bytes.
+- `main.py` — the program that writes the entry
+- `food.jpg` — the cheeseburger photograph
+- `LICENSE` — MIT licence text
+- `README.md` — this note
